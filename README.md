@@ -17,18 +17,19 @@ A news summary Airflow project that:
 
 ```bash
 # To avoid issues with files
-mkdir -p /tmp/mario.ceron/hackathon && chmod -R 777 /tmp/mario.ceron/hackathon
-git clone https://gitlab.endava.com/Mario.Ceron/news-summary-agent.git
+mkdir -p /tmp/username/hackathon && chmod -R 777 /tmp/mario.ceron/hackathon
+# Clone the repo:
+git clone https://github.com/marioceron/news-summary-agent.git
 cd news-summary-agent
 cp .env.example .env
 # Edit .env with the variables: list of news outlets, SMTP, Azure and OPENAI_API_KEY
 
 # LIST_NEWS_OUTLETS=https://www.reuters.com;https://www.bbc.com/sport;https://www.eltiempo.com`
-# SEND_TO=mario.ceron@endava.com
+# SEND_TO=myemail@gmail.com
 # INTEREST_TOPICS=politics;business;sports
-# USER_NAME=mario.ceron
-# YOUR_NAME_FOR_SUBJECT=Mario Ceron 
-# Azure Blob Storage: (AccountName=datahackathon2025)
+# USER_NAME=name.lastname
+# YOUR_NAME_FOR_SUBJECT=Name LastName 
+# Azure Blob Storage: (AccountName=datanews2025)
 # AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=https;AccountName=...;AccountKey=...;EndpointSuffix=core.windows.net
 # AZURE_CONTAINER_NAME=datanews
 
@@ -50,7 +51,7 @@ cp .env.example .env
 # TOPIC_SIM_THRESHOLD=0.20
 # STATE_DB_URL=postgresql+psycopg2://admin:admin@db:5432/airflow
 # Persist State: Airflow Database State path
-# HOST_STATE_DIR=/tmp/mario.ceron/hackathon
+# HOST_STATE_DIR=/tmp/username/hackathon
 
 # Build Image : takes time...
 docker compose up --build
@@ -282,7 +283,7 @@ STATE_DB_URL=postgresql+psycopg2://admin:admin@db:5432/airflow
 
 Note:
 On MacOS, using Rancher Desktop, for the Docker Compose command, create:
-mkdir -p /tmp/mario.ceron/hackathon && chmod -R 777 /tmp/mario.ceron/hackathon
+mkdir -p /tmp/username/hackathon && chmod -R 777 /tmp/username/hackathon
 ```
 ---
 
@@ -292,7 +293,7 @@ A host volume mapped to `/state`, which stores:
 
 `state.db` (seen articles & metadata: PostgreSQL Database)
 
-Bind mounts to `/tmp/mario.ceron/hackathon` by default per `.env` file var: (HOST_STATE_DIR).
+Bind mounts to `/tmp/username/hackathon` by default per `.env` file var: (HOST_STATE_DIR).
 
 ---
 ### Tests - More List News Outlets:
