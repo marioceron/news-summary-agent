@@ -17,8 +17,8 @@ A news summary Airflow project that:
 
 ```bash
 # To avoid issues with files
-mkdir -p /tmp/username/hackathon && chmod -R 777 /tmp/mario.ceron/hackathon
-# Clone the repo:
+mkdir -p /tmp/username/hackathon && chmod -R 777 /tmp/username/hackathon
+# Clone this repo:
 git clone https://github.com/marioceron/news-summary-agent.git
 cd news-summary-agent
 cp .env.example .env
