@@ -1,0 +1,16 @@
+Subject: News summary by {{ your_name }} agent
+
+Topics: {{ topics|join(", ") }}
+
+{% if items %}
+List of news:
+{% for it in items %}
+- Title: {{ it.title }}
+  Topic: {{ it.topic }}
+  Summary:
+    {{ it.summary }}
+
+{% endfor %}
+{% else %}
+No new relevant news this run.
+{% endif %}
