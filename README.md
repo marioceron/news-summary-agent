@@ -116,10 +116,10 @@ The DAG runs every 15 minutes or trigger manually.
 
 ### 2) Storing results in Azure Storage
 - In logs for `store_to_azure`, see blob paths; also check your container:  
-  `mario.ceron/www_reuters_com/extract-YYYY-mm-dd_HH_mm_ss.txt` (dots & slashes replaced).
+  `username/www_reuters_com/extract-YYYY-mm-dd_HH_mm_ss.txt` (dots & slashes replaced).
 
 ### 3) Email sent with news summaries
-- Check inbox for Subject: **“News summary by Mario Ceron agent”** with the rendered body, and translated to English if the source is in Spanish.
+- Check inbox for Subject: **“News summary by Username agent”** with the rendered body, and translated to English if the source is in Spanish.
 
 ### 4) Email topics correspond to configured list
 - The email lists only items labeled to one of: `politics`, `business`, `sports`.
