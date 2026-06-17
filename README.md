@@ -394,6 +394,4 @@ msal==1.31.0
 psycopg2-binary==2.9.9
 sqlalchemy==1.4.54
 ```
----
-### Recording Demo:
-[Click here to Watch the video](images/recording_demo.mp4)
+
