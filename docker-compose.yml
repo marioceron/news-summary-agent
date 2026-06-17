@@ -1,0 +1,65 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: news-agent-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: airflow
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d airflow"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    # To inspect DB from host:
+    ports:
+      - "5432:5432"
+
+  airflow:
+    image: news-agent-airflow:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: news-agent-airflow
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PYTHONPATH: /opt/airflow:/opt/airflow/modules:/opt/airflow/dags
+      # Airflow
+      AIRFLOW_HOME: /opt/airflow
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "True"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://admin:admin@db:5432/airflow
+      # Postgres (inside the same container)
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: airflow
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - ./airflow_home/dags:/opt/airflow/dags
+      - ./airflow_home/include:/opt/airflow/include
+      - ./airflow_home/modules:/opt/airflow/modules
+      - ./requirements.txt:/opt/airflow/requirements.txt:ro
+      - ${HOST_STATE_DIR:-/tmp/${USER}/hackathon}:/state
+    ports:
+      - "8080:8080"
+    user: "50000:0"
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      bash -lc "
+      set -euo pipefail
+      echo '>>> DB wait OK; migrating Airflow...'
+      airflow db migrate &&
+      airflow users create -u admin -p admin -f Admin -l User -r Admin -e admin@example.com || true &&
+      echo '>>> Starting webserver and scheduler...' &&
+      airflow webserver -p 8080 &
+      exec airflow scheduler
+      "
+
+volumes:
+  pgdata:
